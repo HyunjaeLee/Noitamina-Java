@@ -1,12 +1,7 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.regex.*;
 
 /**
  * Created by Hyunjae on 9/5/16.
@@ -62,7 +57,7 @@ public class Util {
 
     }
 
-    public static Map<String, String> search(String word, Map<String, String> map) {
+    public static Map<String, String> find(String word, Map<String, String> map) {
 
         Map<String, String> result = new HashMap<>();
 
