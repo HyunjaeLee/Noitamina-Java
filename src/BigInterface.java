@@ -19,7 +19,7 @@ public class BigInterface extends Interface{
         switch (in[0].toUpperCase()) {
             case "FIND":
                 Map<String, String> small = find(in[1], map);
-                if(small.size() == 1) { // 단일 데이터일 경우 continue
+                if(small.size() == 1) {
                     Get.smallList(smallList, small.values().iterator().next());
                     con = Strings.CONTINUE; //-2
                 }
