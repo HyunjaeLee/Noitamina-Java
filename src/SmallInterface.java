@@ -5,11 +5,6 @@ public class SmallInterface extends Interface {
     @Override
     public int face(String[] in, Map<String, String> map){
 
-        if(in.length < 2){
-            help();
-            return 0;
-        }
-
         int con = 0;
 
         switch (in[0].toUpperCase()) {

@@ -14,11 +14,6 @@ public class BigInterface extends Interface{
 
     public int face (String[] in, Map<String, String> map, Map<String, String> smallList) {
 
-        if(in.length < 2){
-            help();
-            return 0;
-        }
-
         int con = 0;
 
         switch (in[0].toUpperCase()) {
