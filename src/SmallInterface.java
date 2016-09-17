@@ -5,6 +5,11 @@ public class SmallInterface extends Interface {
     @Override
     public int face(String[] in, Map<String, String> map){
 
+        if(in.length < 2){
+            help();
+            return 0;
+        }
+
         int con = 0;
 
         switch (in[0].toUpperCase()) {
@@ -25,16 +30,17 @@ public class SmallInterface extends Interface {
                 thread();
                 break;
 
+            case "BACK":
+                con = back();
+                break;
+
             case "EXIT" :
                 con = exit();
                 break;
 
-            case "CON":
-                con = con();
-                break;
-
-            default:
-                System.out.println("No Result");
+            case "HELP" :
+            default :
+                help();
                 break;
 
         }
@@ -49,6 +55,15 @@ public class SmallInterface extends Interface {
         if(result.size() == 1) {
             download(result);
         }
+    }
+
+    static int back() {
+        return -2;
+    }
+
+    @Override
+    void help() {
+        System.out.print(Strings.SMALL_HELP);
     }
 
 }

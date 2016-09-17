@@ -55,12 +55,10 @@ abstract class Interface {
         }
     }
 
-    static int con() {
-        return -2;
-    }
-
     int exit() {
         return -1;
     }
+
+    abstract void help();
 
 }

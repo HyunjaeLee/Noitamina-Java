@@ -14,6 +14,11 @@ public class BigInterface extends Interface{
 
     public int face (String[] in, Map<String, String> map, Map<String, String> smallList) {
 
+        if(in.length < 2){
+            help();
+            return 0;
+        }
+
         int con = 0;
 
         switch (in[0].toUpperCase()) {
@@ -41,12 +46,13 @@ public class BigInterface extends Interface{
                 url(in[1], map);
                 break;
 
-            case "EXIT":
+            case "EXIT" :
                 con = exit();
                 break;
 
-            default:
-                System.out.println("No Result");
+            case "HELP" :
+            default :
+                help();
                 break;
 
         }
@@ -65,6 +71,11 @@ public class BigInterface extends Interface{
             download(downloads);
         }
 
+    }
+
+    @Override
+    void help() {
+        System.out.print(Strings.BIG_HELP);
     }
 
 }
