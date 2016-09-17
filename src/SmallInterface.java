@@ -5,7 +5,7 @@ public class SmallInterface extends Interface {
     @Override
     public int face(String[] in, Map<String, String> map){
 
-        int con = 0;
+        int con = Strings.DEFAULT; //0
 
         switch (in[0].toUpperCase()) {
 
@@ -13,16 +13,24 @@ public class SmallInterface extends Interface {
                 show(map);
                 break;
 
-            case "DOWNLOAD" :
-                downloadHelper(in[1], map);
-                break;
-
             case "URL" :
                 url(in[1], map);
                 break;
 
+            case "DOWNLOAD" :
+                downloadHelper(in[1], map);
+                break;
+
             case "THREADS" :
                 thread();
+                break;
+
+            case "CANCEL":
+                cancel(in[1]);
+                break;
+
+            case "CANCELALL":
+                cancelAll();
                 break;
 
             case "BACK":
@@ -30,7 +38,7 @@ public class SmallInterface extends Interface {
                 break;
 
             case "EXIT" :
-                con = exit();
+                con = exit(); // -1
                 break;
 
             case "HELP" :
@@ -53,7 +61,7 @@ public class SmallInterface extends Interface {
     }
 
     static int back() {
-        return -2;
+        return Strings.CONTINUE;
     }
 
     @Override

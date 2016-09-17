@@ -14,19 +14,23 @@ public class BigInterface extends Interface{
 
     public int face (String[] in, Map<String, String> map, Map<String, String> smallList) {
 
-        int con = 0;
+        int con = Strings.DEFAULT; //0
 
         switch (in[0].toUpperCase()) {
             case "FIND":
                 Map<String, String> small = find(in[1], map);
-                if(small.size() == 1) {
+                if(small.size() == 1) { // 단일 데이터일 경우 continue
                     Get.smallList(smallList, small.values().iterator().next());
-                    con = -2;
+                    con = Strings.CONTINUE; //-2
                 }
                 break;
 
             case "SHOW":
                 show(map);
+                break;
+
+            case "URL" :
+                url(in[1], map);
                 break;
 
             case "DOWNLOAD":
@@ -37,12 +41,16 @@ public class BigInterface extends Interface{
                 thread();
                 break;
 
-            case "URL" :
-                url(in[1], map);
+            case "CANCEL":
+                cancel(in[1]);
+                break;
+
+            case "CANCELALL":
+                cancelAll();
                 break;
 
             case "EXIT" :
-                con = exit();
+                con = exit(); // -1
                 break;
 
             case "HELP" :

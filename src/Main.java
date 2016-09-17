@@ -4,38 +4,38 @@ import java.util.TreeMap;
 
 public class Main {
 
-	public static void main(String[] args){
+    private static Scanner sc = new Scanner(System.in);
 
-        Scanner sc = new Scanner(System.in);
+	public static void main(String[] args){
 
         BigInterface bigInterface = new BigInterface();
         SmallInterface smallInterface = new SmallInterface();
 
-        int con = 0; // exit: -1 | continue: -2 | else
+        int con = Strings.DEFAULT; // 0
 
-        while(con != -1) {
+        while(con != Strings.EXIT) { // -1
 
             Map<String, String> bigList = new TreeMap<>(new AlphanumComparator());
             Map<String, String> smallList = new TreeMap<>(new AlphanumComparator());
             Get.bigList(bigList);
             bigList.keySet().forEach(System.out::println);
 
-            if(con == -2){
-                con = 0;
+            if(con == Strings.CONTINUE){ // -2
+                con = Strings.DEFAULT; // 0
             }
 
-            while ((con != -1) && (con != -2)) {
-                con = bigInterface.face(sc.nextLine().split(" "), bigList, smallList);
+            while ((con != Strings.EXIT) && (con != Strings.CONTINUE)) { // -1 -2
+                con = bigInterface.face(getInput(), bigList, smallList);
             }
 
-            if(con == -2){
-                con = 0;
+            if(con == Strings.CONTINUE){ // -2
+                con = Strings.DEFAULT; // 0
             }
 
             smallList.keySet().forEach(System.out::println);
 
-            while ((con != -1) && (con != -2)) {
-                con = smallInterface.face(sc.nextLine().split(" "), smallList);
+            while ((con != Strings.EXIT) && (con != Strings.CONTINUE)) { // -1 -2
+                con = smallInterface.face(getInput(), smallList);
             }
 
         }
@@ -43,5 +43,28 @@ public class Main {
         sc.close();
 
 	}
+
+	private static String[] getInput() {
+
+        System.out.print(Strings.INPUT);
+
+        String[] str = new String[2];
+        String[] in = sc.nextLine().split(" ", 2); //limit : 2
+
+        try{
+            str[0] = in[0];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            str[0] = "";
+        }
+
+        try{
+            str[1] = in[1];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            str[1] = "";
+        }
+
+        return str;
+
+    }
 
 }

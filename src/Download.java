@@ -1,59 +1,51 @@
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Comparator;
-import java.util.TreeSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 class Download extends Thread{
 
-    public static TreeSet<Download> downloadSet = new TreeSet<>(new Comparator<Download>() {
+    public static Set<Download> downloadList = new LinkedHashSet<>();
 
-        String o1;
-        String o2;
+    public long downloadSize = 0;
+    public long completeSize = 0;
 
-        @Override
-        public int compare(Download d1,Download d2){
-            o1 = d1.getName();
-            o2 = d2.getName();
-            String o1StringPart=o1.replaceAll("\\d","");
-            String o2StringPart=o2.replaceAll("\\d","");
-            if(o1StringPart.equalsIgnoreCase(o2StringPart)) {
-                return extractInt(o1)-extractInt(o2);
-            }
-            return o1.compareTo(o2);
-        }
+    private int state = 0; // else -> canceled
 
-        int extractInt(String s){
-            String num=s.replaceAll("\\D","");
-            return num.isEmpty()?0:Integer.parseInt(num);
-        }
-    });
+    private String urlString;
+    private String fileString;
 
-    private String url;
-    private String file;
+    private File file;
+    private URL url;
 
-    private long downloadSize = 0;
-    private long completeSize = -1;
+    private InputStream in;
+    private FileOutputStream fos;
 
-    public Download(String url, String file){
-        this.url = url;
-        this.file = file;
-    }
-
-    public float getProgress() {
-        return ((float) downloadSize / completeSize) * 100;
+    public Download(String url, String file, String name) {
+        downloadList.add(this);
+        this.urlString = url;
+        this.fileString = file;
+        this.setName(name);
+        this.start();
+        System.out.println("Starting Download: " + this.getName());
     }
 
     public void run() {
+
         try {
 
-            URLConnection connection = new URL(this.url).openConnection();
+            url = new URL(urlString);
+            URLConnection connection = url.openConnection();
             connection.addRequestProperty("User-Agent", "Mozilla/5.0");
+            in = connection.getInputStream();
 
-            InputStream in = connection.getInputStream();
-            FileOutputStream fos = new FileOutputStream(new File(this.file));
+            file = new File(fileString);
+            fos = new FileOutputStream(file);
 
             completeSize = connection.getContentLengthLong();
 
@@ -68,10 +60,58 @@ class Download extends Thread{
             fos.close();
             in.close();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
+            if(state!=0)
+                System.out.println("Download Canceled: " + this.getName());
+            else
+                e.printStackTrace();
+        }
+
+    }
+
+    public void cancel() {
+
+        state = -1; // state: canceled
+
+        // close streams
+        try {
+            if(fos != null) // NULL CHECK
+                fos.close();
+            if(in != null) // NULL CHECK
+                in.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // delete file
+        if(file.exists()) {
+            file.delete();
+        }
+
+        // kill thread
+        if(this.isAlive()) {
+            this.interrupt();
+        }
+
+        // remove from downloadSet
+        if(downloadList.contains(this)) {
+          downloadList.remove(this);
+        }
+
+    }
+
+    //STATIC
+    public static void cancelAll() {
+        Iterator<Download> iterator = Download.downloadList.iterator();
+        while(iterator.hasNext()) {
+            Download temp = iterator.next();
+            iterator.remove();
+            temp.cancel();
+        }
+    }
+
+    public float getProgress() {
+        return ((float) downloadSize / completeSize) * 100;
     }
 
 }

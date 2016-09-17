@@ -1,5 +1,7 @@
 import java.io.File;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 abstract class Interface {
 
@@ -36,16 +38,32 @@ abstract class Interface {
                 f.delete();
             }
 
-            Download.downloadSet.add(new Download(Get.videoURL(href), file));
-            Download.downloadSet.last().setName(title);
-            Download.downloadSet.last().start();
+            new Download(Get.videoURL(href), file, title);
 
         });
 
     }
 
     void thread() {
-        Download.downloadSet.forEach(d -> System.out.printf("%s : %.1f%%%n" , d.getName() ,d.getProgress()));
+        Download.downloadList.forEach(d -> System.out.printf("%s : %.1f%%%n" , d.getName() ,d.getProgress()));
+    }
+
+    void cancel(String name) {
+
+        Set<Download> match = Download
+                .downloadList
+                .stream()
+                .filter(d -> d.getName().equalsIgnoreCase(name))
+                .collect(Collectors.toSet());
+        if(match.size() == 1)
+            match.iterator().next().cancel();
+        else
+            System.out.println("No matching thread");
+
+    }
+
+    void cancelAll() {
+        Download.cancelAll();
     }
 
     void url(String string, Map<String, String> map) {
@@ -56,7 +74,7 @@ abstract class Interface {
     }
 
     int exit() {
-        return -1;
+        return Strings.EXIT; // -1
     }
 
     abstract void help();

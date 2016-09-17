@@ -62,15 +62,17 @@ public class Util {
 
         Map<String, String> result = new HashMap<>();
 
-        for(String k : map.keySet()) {
-            if (k.toUpperCase().equals(word.trim().toUpperCase())) {
-                result.clear();
-                result.put(k, map.get(k));
-                break;
-            } else if (k.toUpperCase().contains(word.trim().toUpperCase())) {
-                result.put(k, map.get(k));
-            }
+        if(!word.equals("")){ // runs for-loop if 'word' is not empty
+            for(String k : map.keySet()) {
 
+                if (k.equalsIgnoreCase(word.trim())) { //EQUALS
+                    result.clear();
+                    result.put(k, map.get(k));
+                } else if (k.toUpperCase().contains(word.trim().toUpperCase())) { //CONTAINS
+                    result.put(k, map.get(k));
+                }
+
+            }
         }
 
         return result;
