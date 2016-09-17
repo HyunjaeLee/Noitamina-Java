@@ -1,16 +1,14 @@
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.HashMap;
 
-/**
- * Created by Hyunjae on 9/17/16.
- */
 public class BigInterface extends Interface{
 
 
     @Override
     public int face(String[] in, Map<String, String> map) {
 
-        return face(in, map, null);
+        return face(in, map, new HashMap<>());
 
     }
 
@@ -58,7 +56,7 @@ public class BigInterface extends Interface{
     }
 
     @Override
-    protected void downloadHelper(String string, Map<String, String> map) {
+    void downloadHelper(String string, Map<String, String> map) {
 
         Map<String, String> result = find(string, map);
         if(result.size() == 1) {

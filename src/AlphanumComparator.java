@@ -1,9 +1,5 @@
 import java.util.Comparator;
 
-/**
- * Created by Hyunjae on 9/9/16.
- */
-
 public class AlphanumComparator implements Comparator<String> {
 
     @Override

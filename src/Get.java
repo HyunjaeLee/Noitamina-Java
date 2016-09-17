@@ -1,8 +1,9 @@
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * Created by Hyunjae on 9/17/16.
- */
 public class Get {
 
     public static int bigList(Map<String, String> bigList) {

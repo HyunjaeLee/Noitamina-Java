@@ -1,8 +1,5 @@
 import java.util.Map;
 
-/**
- * Created by Hyunjae on 9/17/16.
- */
 public class SmallInterface extends Interface {
 
     @Override
@@ -47,7 +44,7 @@ public class SmallInterface extends Interface {
     }
 
     @Override
-    protected void downloadHelper(String string, Map<String, String> map) {
+    void downloadHelper(String string, Map<String, String> map) {
         Map<String, String> result = find(string, map);
         if(result.size() == 1) {
             download(result);

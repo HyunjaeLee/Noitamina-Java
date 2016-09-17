@@ -6,13 +6,9 @@ import java.net.URLConnection;
 import java.util.Comparator;
 import java.util.TreeSet;
 
-/**
- * Created by Hyunjae on 9/5/16
- */
-
 class Download extends Thread{
 
-    public static TreeSet<Download> set = new TreeSet<>(new Comparator<Download>() {
+    public static TreeSet<Download> downloadSet = new TreeSet<>(new Comparator<Download>() {
 
         String o1;
         String o2;
