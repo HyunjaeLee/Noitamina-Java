@@ -1,15 +1,39 @@
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.*;
-//import java.nio.channels.Channels;
-//import java.nio.channels.ReadableByteChannel;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 /**
  * Created by Hyunjae on 9/5/16
  */
 
 class Download extends Thread{
+
+    public static TreeSet<Download> set = new TreeSet<>(new Comparator<Download>() {
+
+        String o1;
+        String o2;
+
+        @Override
+        public int compare(Download d1,Download d2){
+            o1 = d1.getName();
+            o2 = d2.getName();
+            String o1StringPart=o1.replaceAll("\\d","");
+            String o2StringPart=o2.replaceAll("\\d","");
+            if(o1StringPart.equalsIgnoreCase(o2StringPart)) {
+                return extractInt(o1)-extractInt(o2);
+            }
+            return o1.compareTo(o2);
+        }
+
+        int extractInt(String s){
+            String num=s.replaceAll("\\D","");
+            return num.isEmpty()?0:Integer.parseInt(num);
+        }
+    });
 
     private String url;
     private String file;
@@ -31,14 +55,6 @@ class Download extends Thread{
 
             URLConnection connection = new URL(this.url).openConnection();
             connection.addRequestProperty("User-Agent", "Mozilla/5.0");
-
-            /*
-            ReadableByteChannel rbc = Channels.newChannel(connection.getInputStream());
-            FileOutputStream fos = new FileOutputStream(new File(this.file));
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-            fos.close();
-            rbc.close();
-            */
 
             InputStream in = connection.getInputStream();
             FileOutputStream fos = new FileOutputStream(new File(this.file));

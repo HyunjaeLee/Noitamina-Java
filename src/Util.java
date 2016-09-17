@@ -66,9 +66,7 @@ public class Util {
                 result.clear();
                 result.put(k, map.get(k));
                 break;
-            }
-
-            if (k.toUpperCase().contains(word.trim().toUpperCase())) {
+            } else if (k.toUpperCase().contains(word.trim().toUpperCase())) {
                 result.put(k, map.get(k));
             }
 
